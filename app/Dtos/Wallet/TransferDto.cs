@@ -9,7 +9,7 @@ namespace app.Dtos.Wallet
     public class TransferDto
     {
         [Required]
-        public int WalletId { get; set; }
+        public string UserId { get; set; } = null!;
         [Required]
         [Range(0, 1000000000000)]
         public int BRL { get; set; }
