@@ -9,10 +9,9 @@ namespace app.Interfaces
 {
     public interface IWalletRepository
     {
-        Task<WalletDto> GetWalletAsync(AppUser user);
+        Task<WalletDto?> GetWalletAsync(AppUser user);
         Task<WalletDto> AddWalletAsync(AppUser user);
-        Task<Wallet> UpdateWalletAsync(UpdateWalletDto walletDto);
+        Task<WalletDto?> UpdateWalletAsync(AppUser user, UpdateWalletDto walletDto);
         Task<bool> TransferAsync(AppUser sender, TransferDto receiver);
-        Task<Wallet> DeleteWalletAsync(AppUser user);
     }
 }

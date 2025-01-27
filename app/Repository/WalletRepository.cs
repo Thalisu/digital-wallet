@@ -7,6 +7,7 @@ using app.Dtos.Wallet;
 using app.Interfaces;
 using app.Mappers;
 using app.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace app.Repository
 {
@@ -26,21 +27,50 @@ namespace app.Repository
             await _context.SaveChangesAsync();
             return wallet.ToWalletDto();
         }
-        async public Task<Wallet> DeleteWalletAsync(AppUser user)
+        async public Task<WalletDto?> GetWalletAsync(AppUser user)
         {
-            throw new NotImplementedException();
+            var wallet = await _context.Wallets.FirstOrDefaultAsync(
+                w => w.UserId == user.Id);
+            return wallet?.ToWalletDto();
         }
-        async public Task<WalletDto> GetWalletAsync(AppUser user)
+        async public Task<WalletDto?> UpdateWalletAsync(
+            AppUser user, UpdateWalletDto walletDto)
         {
-            throw new NotImplementedException();
-        }
-        async public Task<Wallet> UpdateWalletAsync(UpdateWalletDto walletDto)
-        {
-            throw new NotImplementedException();
+            var wallet = await _context.Wallets.FirstOrDefaultAsync(
+                w => w.UserId == user.Id);
+            if (wallet == null)
+            {
+                return null;
+            }
+
+            wallet.BRL = walletDto.BRL;
+            wallet.USD = walletDto.USD;
+
+            await _context.SaveChangesAsync();
+            return wallet.ToWalletDto();
         }
         async public Task<bool> TransferAsync(AppUser sender, TransferDto receiver)
         {
-            throw new NotImplementedException();
+            var senderWallet = await _context.Wallets.FirstOrDefaultAsync(
+                w => w.UserId == sender.Id);
+            var receiverWallet = await _context.Wallets.FirstOrDefaultAsync(
+                w => w.UserId == receiver.UserId);
+            if (receiverWallet == null || senderWallet == null)
+            {
+                return false;
+            }
+
+            if (senderWallet.BRL < receiver.BRL || senderWallet.USD < receiver.USD)
+            {
+                return false;
+            }
+
+            senderWallet.BRL -= receiver.BRL;
+            receiverWallet.BRL += receiver.BRL;
+            senderWallet.USD -= receiver.USD;
+            receiverWallet.USD += receiver.USD;
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }
