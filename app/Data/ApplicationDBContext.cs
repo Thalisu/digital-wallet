@@ -18,6 +18,12 @@ namespace app.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<AppUser>()
+                .HasOne(u => u.Wallet)
+                    .WithOne(w => w.AppUser)
+                .HasForeignKey<Wallet>(w => w.UserId)
+                .IsRequired();
+
             List<IdentityRole> roles = [
                 new(){
                     Id = "1",
