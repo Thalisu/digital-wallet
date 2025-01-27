@@ -16,6 +16,7 @@ namespace app.Config.Programs
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IWalletRepository, WalletRepository>();
+            services.AddScoped<ITransferRepository, TransferRepository>();
             return services;
         }
 
