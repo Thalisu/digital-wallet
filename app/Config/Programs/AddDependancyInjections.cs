@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using app.Interfaces;
 using app.Services;
 
-namespace app.Config
+namespace app.Config.Programs
 {
     public static class AddDependancyInjections
     {

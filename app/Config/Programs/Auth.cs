@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
-namespace app.Config
+namespace app.Config.Programs
 {
     public static class Auth
     {
@@ -25,15 +25,9 @@ namespace app.Config
                 options.User.RequireUniqueEmail = true;
             }).AddEntityFrameworkStores<ApplicationDBContext>();
 
-            var jwtKey = builder.Configuration["Jwt:SigningKey"]
-            ?? throw new ArgumentNullException(
-                "Define Jwt:SigningKey in appsettings.json");
-            var issuer = builder.Configuration["Jwt:Issuer"]
-            ?? throw new ArgumentNullException(
-                "Define Jwt:Issuer in appsettings.json");
-            var audience = builder.Configuration["Jwt:Audience"]
-            ?? throw new ArgumentNullException(
-                "Define Jwt:Audience in appsettings.json");
+            var jwtKey = builder.Configuration.GetJwtSigningKey();
+            var issuer = builder.Configuration.GetJwtIssuer();
+            var audience = builder.Configuration.GetJwtAudience();
 
             builder.Services.AddAuthentication(options =>
             {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using app.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace app.Config
+namespace app.Config.Programs
 {
     public static class AddDBContext
     {

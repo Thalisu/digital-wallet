@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace app.Config
+namespace app.Config.Programs
 {
     public static class AddNewtonSoftController
     {
