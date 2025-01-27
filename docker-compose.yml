@@ -1,0 +1,24 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./db/data:/var/opt/mssql/data
+      - ./db/log:/var/opt/mssql/log
+      - ./db/secrets:/var/opt/mssql/secrets
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=DefinePass123
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
