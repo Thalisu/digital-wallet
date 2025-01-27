@@ -8,7 +8,7 @@ namespace app.Dtos.Wallet
     public class WalletDto
     {
         public int Id { get; set; }
-        public int BRL { get; set; }
-        public int USD { get; set; }
+        public decimal BRL { get; set; }
+        public decimal USD { get; set; }
     }
 }

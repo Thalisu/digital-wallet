@@ -10,9 +10,9 @@ namespace app.Models
     {
         public int Id { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
-        public int BRL { get; set; }
+        public decimal BRL { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
-        public int USD { get; set; }
+        public decimal USD { get; set; }
         public string UserId { get; set; } = null!;
         public AppUser AppUser { get; set; } = null!;
     }

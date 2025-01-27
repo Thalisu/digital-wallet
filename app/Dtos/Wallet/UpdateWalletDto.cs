@@ -10,9 +10,9 @@ namespace app.Dtos.Wallet
     {
         [Required]
         [Range(0, 1000000000000)]
-        public int BRL { get; set; }
+        public decimal BRL { get; set; }
         [Required]
         [Range(0, 1000000000000)]
-        public int USD { get; set; }
+        public decimal USD { get; set; }
     }
 }
