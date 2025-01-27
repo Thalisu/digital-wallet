@@ -8,6 +8,7 @@ namespace app.Models
 {
     public class Wallet
     {
+        public int Id { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public int BRL { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
