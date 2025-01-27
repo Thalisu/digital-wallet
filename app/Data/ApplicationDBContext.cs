@@ -14,6 +14,7 @@ namespace app.Data
         : IdentityDbContext<AppUser>(dbContextOptions)
     {
         public DbSet<Wallet> Wallets { get; set; }
+        public DbSet<Transfer> Transfers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
