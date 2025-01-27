@@ -16,10 +16,13 @@ namespace app.Controllers
     [Route("/user")]
     public class UserController(
         IUserRepository userRepository,
-        ITokenService tokenService) : ControllerBase
+        ITokenService tokenService,
+        IWalletRepository walletRepository) : ControllerBase
     {
         private readonly IUserRepository _userRepository = userRepository;
+        private readonly IWalletRepository _walletRepository = walletRepository;
         private readonly ITokenService _tokenService = tokenService;
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
@@ -45,6 +48,8 @@ namespace app.Controllers
             {
                 return StatusCode(500, roleResult.Errors);
             }
+
+            await _walletRepository.AddWalletAsync(user);
 
             return Ok(user.ToUserDto(_tokenService.CreateToken(user)));
         }
