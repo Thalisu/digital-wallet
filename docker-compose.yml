@@ -7,16 +7,15 @@ services:
     networks:
       - app-network
   db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: postgres:latest
     ports:
-      - "1433:1433"
-    volumes:
-      - ./db/data:/var/opt/mssql/data
-      - ./db/log:/var/opt/mssql/log
-      - ./db/secrets:/var/opt/mssql/secrets
+      - "5488:5432"
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=DefinePass123
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
     networks:
       - app-network
 
