@@ -1,6 +1,11 @@
 # Digital Wallet
 
 ## Como rodar o projeto:
+
+### Primeiro passo:
+
+Para inicializar a database execute o comando `docker compose up migrations`, caso algo de errado, verifique se a pasta db foi criada no diretorio root se não execute o comando novamente.
+
 ### Development:
 
 O comando `docker compose -f docker-compose.dev.yml up` iniciará dois containers Docker, um para o banco de dados PostgreSQL e outro com a API na porta 5022.
