@@ -80,7 +80,7 @@ namespace app.Controllers
 
             return Ok(user.ToUserDto(_tokenService.CreateToken(user)));
         }
-        [HttpPost("Populate")]
+        [HttpPost("populate")]
         public async Task<IActionResult> Populate()
         {
             var users = await _userRepository.Populate();
