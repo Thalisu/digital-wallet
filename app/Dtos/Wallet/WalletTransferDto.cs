@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace app.Dtos.Wallet
 {
-    public class TransferDto
+    public class WalletTransferDto
     {
         [Required]
         public string UserId { get; set; } = null!;

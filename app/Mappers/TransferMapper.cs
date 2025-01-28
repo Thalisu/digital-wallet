@@ -15,11 +15,10 @@ namespace app.Mappers
             return new Transfer
             {
                 AppUserId = transferDto.AppUserId,
-                ToWalletId = transferDto.ToWalletId,
+                ToUserId = transferDto.ToUserId,
                 BRL = transferDto.BRL,
                 USD = transferDto.USD,
                 Date = DateTime.UtcNow,
-                ToUsername = transferDto.ToUsername
             };
         }
         public static TransferDto ToTransferDto(
@@ -29,11 +28,10 @@ namespace app.Mappers
             {
                 Id = transfer.Id,
                 AppUserId = transfer.AppUserId,
-                ToWalletId = transfer.ToWalletId,
+                ToUserId = transfer.ToUserId,
                 BRL = transfer.BRL,
                 USD = transfer.USD,
                 Date = DateTime.UtcNow,
-                ToUsername = transfer.ToUsername
             };
         }
     }

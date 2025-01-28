@@ -57,7 +57,7 @@ namespace app.Controllers
         }
         [HttpPut("transfer")]
         [Authorize]
-        public async Task<IActionResult> TransferAsync(TransferDto transferDto)
+        public async Task<IActionResult> TransferAsync(WalletTransferDto transferDto)
         {
             var username = User.GetUsername();
             if (username == null)
