@@ -49,7 +49,7 @@ namespace app.Repository
             await _context.SaveChangesAsync();
             return wallet.ToWalletDto();
         }
-        async public Task<bool> TransferAsync(AppUser sender, TransferDto receiver)
+        async public Task<bool> TransferAsync(AppUser sender, WalletTransferDto receiver)
         {
             var senderWallet = await _context.Wallets.FirstOrDefaultAsync(
                 w => w.UserId == sender.Id);
@@ -59,11 +59,25 @@ namespace app.Repository
             {
                 return false;
             }
-
             if (senderWallet.BRL < receiver.BRL || senderWallet.USD < receiver.USD)
             {
                 return false;
             }
+            if (senderWallet.UserId == receiver.UserId)
+            {
+                return false;
+            }
+
+            var transfer = new Transfer
+            {
+                AppUserId = sender.Id,
+                ToUserId = receiver.UserId,
+                BRL = receiver.BRL == 0 ? null : receiver.BRL,
+                USD = receiver.USD == 0 ? null : receiver.USD,
+                Date = DateTime.UtcNow,
+            };
+
+            await _context.Transfers.AddAsync(transfer);
 
             senderWallet.BRL -= receiver.BRL;
             receiverWallet.BRL += receiver.BRL;
