@@ -18,10 +18,12 @@ namespace app.Repository
         private readonly ApplicationDBContext _context = context;
         async public Task<List<TransferDto>> GetTransfersAsync(AppUser user, QueryObject queryObject)
         {
+            var queryObjectDto = queryObject.ToTransfersQueryObjectDto();
+
             var transfers = await _context.Transfers.Where(
                 t => t.AppUserId == user.Id
-                     && t.Date >= queryObject.FrDate
-                      && t.Date <= queryObject.ToDate).ToListAsync();
+                     && t.Date >= queryObjectDto.FrDate
+                      && t.Date <= queryObjectDto.ToDate).ToListAsync();
 
             return [.. transfers.Select(t => t.ToTransferDto())];
         }
