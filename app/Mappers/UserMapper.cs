@@ -18,6 +18,7 @@ namespace app.Mappers
             }
             return new UserDto
             {
+                Id = user.Id,
                 Email = user.Email,
                 Username = user.UserName,
                 Token = token
