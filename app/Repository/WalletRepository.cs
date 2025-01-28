@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using app.Data;
+using app.Dtos.Transfer;
 using app.Dtos.Wallet;
 using app.Interfaces;
 using app.Mappers;
@@ -49,23 +50,34 @@ namespace app.Repository
             await _context.SaveChangesAsync();
             return wallet.ToWalletDto();
         }
-        async public Task<bool> TransferAsync(AppUser sender, WalletTransferDto receiver)
+        async public Task<TransferResultDto> TransferAsync(AppUser sender, WalletTransferDto receiver)
         {
             var senderWallet = await _context.Wallets.FirstOrDefaultAsync(
                 w => w.UserId == sender.Id);
             var receiverWallet = await _context.Wallets.FirstOrDefaultAsync(
                 w => w.UserId == receiver.UserId);
+
+            var TransferResultDto = new TransferResultDto();
+
             if (receiverWallet == null || senderWallet == null)
             {
-                return false;
-            }
-            if (senderWallet.BRL < receiver.BRL || senderWallet.USD < receiver.USD)
-            {
-                return false;
+                TransferResultDto.Error = "Sender user or receiver not found";
+                return TransferResultDto;
             }
             if (senderWallet.UserId == receiver.UserId)
             {
-                return false;
+                TransferResultDto.Error = "Sender and receiver cannot be the same user";
+                return TransferResultDto;
+            }
+            if (senderWallet.BRL < receiver.BRL || senderWallet.USD < receiver.USD)
+            {
+                TransferResultDto.Error = "Insufficient funds";
+                return TransferResultDto;
+            }
+            if (receiver.BRL == 0 && receiver.USD == 0)
+            {
+                TransferResultDto.Error = "Amount cannot be zero";
+                return TransferResultDto;
             }
 
             var transfer = new Transfer
@@ -83,8 +95,11 @@ namespace app.Repository
             receiverWallet.BRL += receiver.BRL;
             senderWallet.USD -= receiver.USD;
             receiverWallet.USD += receiver.USD;
+
             await _context.SaveChangesAsync();
-            return true;
+
+            TransferResultDto.Transfer = transfer.ToTransferDto();
+            return TransferResultDto;
         }
     }
 }
