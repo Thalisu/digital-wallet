@@ -6,7 +6,7 @@ services:
       - ./app/:/app/
     ports:
       - "5022:5022"
-    command: ["dotnet", "watch", "--urls", "http://0.0.0.0:5022"]
+    command: ["dotnet", "watch", "--urls=http://0.0.0.0:5022"]
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
@@ -15,8 +15,8 @@ services:
       - app-network
   db:
     image: postgres:latest
-    ports:
-      - "5488:5432"
+    expose:
+      - 5432
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
