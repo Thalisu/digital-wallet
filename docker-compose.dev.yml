@@ -1,0 +1,28 @@
+services:
+  app:
+    image: dev-digital-wallet
+    build: 
+      dockerfile: ./dev.Dockerfile
+    volumes:
+      - ./app:/app
+    ports:
+      - "8080:5022"
+    networks:
+      - app-network
+    command: ["dotnet", "watch"]
+  db:
+    image: postgres:latest
+    ports:
+      - "5488:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
