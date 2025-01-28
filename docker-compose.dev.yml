@@ -6,9 +6,11 @@ services:
       - ./app/:/app/
     ports:
       - "5022:5022"
-    command: ["dotnet", "watch", "--urls=http://0.0.0.0:5022"]
+      - "7237:7237"
+    command: ["dotnet", "watch", --urls=http://0.0.0.0:5022]
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:5022
     depends_on:
       - db
     networks:
