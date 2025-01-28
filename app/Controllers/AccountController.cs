@@ -22,6 +22,12 @@ namespace app.Controllers
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IWalletRepository _walletRepository = walletRepository;
         private readonly ITokenService _tokenService = tokenService;
+        [HttpGet("users")]
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = await _userRepository.GetUsersAsync();
+            return Ok(users);
+        }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
@@ -73,6 +79,12 @@ namespace app.Controllers
             }
 
             return Ok(user.ToUserDto(_tokenService.CreateToken(user)));
+        }
+        [HttpPost("Populate")]
+        public async Task<IActionResult> Populate()
+        {
+            var users = await _userRepository.Populate();
+            return Ok(users);
         }
     }
 }

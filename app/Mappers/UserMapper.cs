@@ -24,5 +24,18 @@ namespace app.Mappers
                 Token = token
             };
         }
+        public static UserConsultDto ToUserConsultDto(this AppUser user)
+        {
+            if (user.Email == null || user.UserName == null)
+            {
+                throw new ArgumentNullException(user.Email, user.UserName);
+            }
+            return new UserConsultDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Username = user.UserName
+            };
+        }
     }
 }
