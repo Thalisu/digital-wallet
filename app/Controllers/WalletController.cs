@@ -69,8 +69,13 @@ namespace app.Controllers
             {
                 return Unauthorized();
             }
-            var userWallet = await _walletRepository.TransferAsync(appUser, transferDto);
-            return Ok(userWallet);
+            var result = await _walletRepository.TransferAsync(appUser, transferDto);
+            if (result.Error != null)
+            {
+                return BadRequest(result.Error);
+            }
+
+            return Ok(result.Transfer);
         }
     }
 }
