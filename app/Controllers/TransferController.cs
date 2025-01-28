@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using app.Dtos.Transfer;
 using app.Extensions;
+using app.helpers;
 using app.Interfaces;
 using app.Models;
 using Microsoft.AspNetCore.Identity;
@@ -21,7 +22,7 @@ namespace app.Controllers
         private readonly UserManager<AppUser> _userManager = userManager;
 
         [HttpGet]
-        public async Task<IActionResult> GetTransfers()
+        public async Task<IActionResult> GetTransfers([FromQuery] QueryObject queryObject)
         {
             var username = User.GetUsername();
             if (username == null)
@@ -34,7 +35,7 @@ namespace app.Controllers
                 return Unauthorized();
             }
 
-            var transfers = await _transferRepository.GetTransfersAsync(appUser);
+            var transfers = await _transferRepository.GetTransfersAsync(appUser, queryObject);
 
             return Ok(transfers);
         }
