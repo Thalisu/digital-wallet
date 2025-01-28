@@ -1,15 +1,18 @@
 services:
   app:
-    image: dev-digital-wallet
-    build: 
-      dockerfile: ./dev.Dockerfile
+    image: mcr.microsoft.com/dotnet/sdk:8.0-alpine
+    working_dir: /app
     volumes:
-      - ./app:/app
+      - ./app/:/app/
     ports:
-      - "8080:5022"
+      - "5022:5022"
+    command: ["dotnet", "watch", "--urls", "http://0.0.0.0:5022"]
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - db
     networks:
       - app-network
-    command: ["dotnet", "watch"]
   db:
     image: postgres:latest
     ports:
