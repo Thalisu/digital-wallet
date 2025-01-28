@@ -6,6 +6,8 @@ using app.Data;
 using app.Dtos.Transfer;
 using app.Interfaces;
 using app.Mappers;
+using app.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace app.Repository
 {
@@ -13,6 +15,13 @@ namespace app.Repository
         : ITransferRepository
     {
         private readonly ApplicationDBContext _context = context;
+        async public Task<List<TransferDto>> GetTransfersAsync(AppUser user)
+        {
+            var transfers = await _context.Transfers
+                .Where(t => t.AppUserId == user.Id)
+                .ToListAsync();
+            return [.. transfers.Select(t => t.ToTransferDto())];
+        }
         async public Task<TransferDto> CreateTransferAsync(CreateTransferDto transferDto)
         {
             var transfer = transferDto.ToTransferFromCreateDto();
